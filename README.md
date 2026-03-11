@@ -1,434 +1,336 @@
 # CS5150 Software Engineering
 
-Software engineering is what happens when software becomes too important to treat casually. The same field that gives us the Linux kernel, open collaboration, and SQLite with roughly `640x` more test code than production code is also the field shaped by failures like Therac-25, the FAA Advanced Automation System, Ariane 5, and the Boeing 737 MAX. Software can save time, scale to millions, and support entire organizations, but when it is built without the right discipline, the cost is delay, waste, broken systems, and sometimes real harm. That is the story of this course: software is powerful, the stakes are high, and engineering is how we build systems people can trust.
-
-## Lecture 2
-
-### Stakeholders
-
-Stakeholders are the people or groups who affect the project or are affected by it.
-
-| Stakeholder | What they care about |
-| --- | --- |
-| Developer | Buildability, maintainability, technical feasibility |
-| Client | Cost, schedule, priorities, success of the project |
-| Customer | Whether the software is worth buying or adopting |
-| User | Usability, usefulness, reliability |
-| Society | Safety, privacy, fairness, legal/ethical impact |
-
-### Key ideas
-
-- The first step in a project is identifying stakeholders.
-- Stakeholder interests are often different.
-- The `client` usually sets priorities because the client bears the cost and risk.
-- Good software engineering reduces risk through communication and visibility.
-
-### Quick example
-
-For Canvas:
-
-- Developer: Instructure engineers
-- Client: Cornell or the organization paying for the service
-- Customer: Cornell / university administration
-- User: students, instructors, TAs
-- Society: anyone affected by accessibility, privacy, or policy decisions
-
-### Process Models
-
-There is no single best process model. The right one depends on how stable the requirements are, how risky the project is, and how often feedback is needed.
-
-### Fast comparison
-
-| Model | Best when | Pros | Cons |
-| --- | --- | --- | --- |
-| Waterfall | Requirements are stable and formal documentation matters | Clear phases, easy to manage, strong documentation | Bad at change, feedback comes late |
-| Modified Waterfall | Requirements are mostly known, but some revision is expected | More realistic than pure waterfall, still structured | Still slow when requirements change a lot |
-| Prototyping / Iterative Refinement | Requirements are unclear, especially UI/workflow | Early feedback, helps discover real needs | Prototype may be mistaken for final product |
-| Incremental Delivery | Partial working features are useful | Users get value early, progress is visible | Needs strong architecture and testing |
-| Agile / Scrum / XP | Requirements change often and feedback is frequent | Flexible, fast feedback, good visibility | Can become messy with weak discipline or poor docs |
-| COTS / Integration | A standard solution already exists | Faster, less need to build from scratch | Less flexibility, integration/vendor issues |
-
-### When to use which
-
-| Situation | Good fit | Why |
-| --- | --- | --- |
-| Government or highly regulated system | Waterfall / Modified Waterfall | Stable requirements, approvals, traceability |
-| New app with unclear user needs | Prototyping + Agile | Learn quickly from user feedback |
-| Large system that can ship in stages | Incremental Delivery | Delivers useful pieces over time |
-| Fast-moving product team | Agile / Scrum / XP | Handles changing priorities well |
-| Common problem with existing tools | COTS / Integration | Reuse is cheaper than rebuilding |
-
-### Intuition through examples
-
-| Example | Likely process | Why |
-| --- | --- | --- |
-| Tax reporting system with fixed rules | Waterfall | Rules are stable and documentation matters |
-| New student planner app | Prototyping + Agile | Users may not know what they want until they see it |
-| E-commerce platform built feature by feature | Incremental Delivery | Browsing, cart, payments can ship in stages |
-| Team improving a live web product every 2 weeks | Scrum / Agile | Frequent feedback and changing priorities |
-| Company using Shopify instead of building a store | COTS / Integration | Existing solution is faster and cheaper |
-
-### What to remember for the exam
-
-- There is no universally best process model.
-- The first step is to identify stakeholders.
-- Different stakeholders care about different things.
-- The client usually sets priorities because the client bears risk.
-- Process choice depends on requirement stability, feedback needs, and project risk.
-- Good answers justify `why` a process fits, not just `which` process to pick.
-
-### One-line summary
-
-Lecture 2 says: first understand `who the software is for`, then choose `how the team should build it`.
-
-## Lecture 3
-
-### Requirements
-
-Requirements describe what the system must do and what constraints it must satisfy. If the requirements are wrong, even well-written code produces the wrong system.
-
-### Main types
-
-| Type | Meaning | Examples |
-| --- | --- | --- |
-| Functional | What the system does | Login, submit assignment, generate report |
-| Non-functional | How well the system works or what constraints it must obey | Performance, security, reliability, scalability, legal compliance |
-
-### Fast test
-
-| Requirement | Type | Why |
-| --- | --- | --- |
-| Users can reset their password by email | Functional | A system feature |
-| Password reset links expire in 15 minutes | Non-functional | Security constraint |
-| The site supports 10,000 concurrent users | Non-functional | Scalability/performance |
-| Instructors can publish grades to students | Functional | A system action |
-| The app must comply with FERPA | Non-functional | Legal/compliance constraint |
-
-### User stories
-
-User stories are short, user-focused descriptions of value.
-
-Format:
-
-`As a [role], I want [goal], so that [reason].`
-
-Example:
-
-`As a project manager, I want to generate a status report so that I can share progress with stakeholders.`
-
-### Requirements vs user stories
-
-| Item | Best for | Limitation |
-| --- | --- | --- |
-| Requirement | Precision and completeness | Can be too formal for clients |
-| User story | Communicating user value simply | Often not detailed enough by itself |
-
-### What to remember for the exam
-
-- Functional requirements describe `what` the system does.
-- Non-functional requirements describe `how well` or `under what constraints` it does it.
-- Non-functional requirements often drive architecture.
-- User stories are useful, but they are not a full replacement for requirements.
-- A permission rule like `only admins can delete users` is usually best treated as functional behavior.
-
-### One-line summary
-
-Lecture 3 says: after choosing a process, define `what the system must do` before arguing about implementation.
-
-## Lecture 4
-
-### Modeling
-
-Modeling is about simplifying a system so you can understand, discuss, and design it clearly before coding. Different models show different views of the same system.
-
-### Main model types
-
-| Type | Focus | Good for |
-| --- | --- | --- |
-| External | System in its environment | Context and boundaries |
-| Structural | How parts are organized | Classes, components, relationships |
-| Interaction | How actors/components communicate | Use cases, sequence diagrams |
-| Behavioral | How the system changes over time | State changes, workflows, activities |
-
-### UML basics
-
-| Diagram | Shows | Main elements |
-| --- | --- | --- |
-| Use Case | What actors want to do with the system | Actor, use case, `<<include>>`, `<<extend>>` |
-| Sequence | Order of interactions over time | Actor, objects, lifelines, messages, returns, alt frame |
-| Data Flow / Activity | Flow of work or data | Activity, data, start/end, transitions |
-| Class | Static structure | Classes and relationships |
-| State / Transition | How an object/system changes state | States, events, transitions |
-
-### Key distinctions
-
-| Concept | Meaning |
-| --- | --- |
-| `<<include>>` | Included use case always happens as part of the base use case |
-| `<<extend>>` | Extended use case happens only sometimes |
-| Sequence diagram | Best for showing message order |
-| Class diagram | Best for showing structure, not time order |
-| Behavioral model | Best for showing changes over time |
-
-### When to use what
-
-| Need | Best model |
-| --- | --- |
-| Show who interacts with the system | Use Case |
-| Show the order of calls/messages | Sequence |
-| Show workflow or process steps | Activity / Data Flow |
-| Show classes and relationships | Class |
-| Show system/object state changes | State / Transition |
-
-### What to remember for the exam
-
-- A model is a simplified view, not the real system.
-- Different models answer different questions.
-- Use case diagrams show actors and goals.
-- Sequence diagrams show interaction order over time.
-- Class diagrams show static structure.
-- Behavioral models show workflow or state change.
-- `<<include>>` means always; `<<extend>>` means sometimes.
-
-### One-line summary
-
-Lecture 4 says: before building the system, choose the right model to explain the right part of it.
-
-## Lecture 5
-
-### Planning
-
-Planning is about deciding whether a project is feasible and how it can be completed within time, scope, and resource limits. For the exam, the most important part is `critical path analysis`.
-
-### Core planning terms
-
-| Term | Meaning |
-| --- | --- |
-| Feasibility | Whether the project should be done at all |
-| Scope | What is included, excluded, and dependent on other systems |
-| Milestone | A checkpoint showing progress |
-| Deliverable | A work product handed to the client/team |
-| Dependency | One activity must finish before another can start |
-| Duration | Time needed for an activity |
-| Slack | How much an activity can slip without delaying the project |
-| Critical Path | The longest dependency path that determines total project duration |
-
-### Deliverable vs milestone
-
-| Item | Meaning | Examples |
-| --- | --- | --- |
-| Deliverable | Something produced for others | Report, demo, code, documentation |
-| Milestone | A progress checkpoint | End of sprint, testing target reached |
-
-### Critical path analysis
-
-| Step | Rule |
-| --- | --- |
-| Draw the network | Use tasks, durations, and dependencies |
-| Forward pass | `ES = max(predecessor EF)`, `EF = ES + duration` |
-| Project duration | Earliest finish of the final node |
-| Backward pass | `LF = min(successor LS)`, `LS = LF - duration` |
-| Slack | `LS - ES` or `LF - EF` |
-| Critical path | Activities with `0 slack` |
-
-### What to remember
-
-| Idea | Why it matters |
-| --- | --- |
-| Take the `max` on the forward pass | A task must wait for all predecessors |
-| Take the `min` on the backward pass | You must satisfy the most restrictive successor |
-| Critical path has zero slack | Delay there delays the whole project |
-| Non-critical tasks can still slip a little | Their slack absorbs delay |
-
-### Quick example
-
-| Task | Depends on | Duration |
-| --- | --- | --- |
-| A | - | 3 |
-| B | A | 4 |
-| C | B | 2 |
-| E | - | 5 |
-| F | A, E | 3 |
-| G | F | 3 |
-| Finish | C, G | 0 |
-
-Paths:
-
-- `A -> B -> C = 9`
-- `E -> F -> G = 11` with `F` waiting for both `A` and `E`
-
-So:
-
-- earliest project finish = `11`
-- critical path = `E -> F -> G`
-
-### Common exam mistakes
-
-- Adding predecessor times instead of taking the `max`
-- Forgetting that multiple dependencies mean “wait for all”
-- Mixing up milestone and deliverable
-- Thinking the visually longest path is always the critical path
-- Forgetting that only zero-slack activities are on the critical path
-
-### What to remember for the exam
-
-- Planning is about scope, feasibility, resources, risks, and schedule.
-- Critical path analysis finds the minimum possible project duration.
-- Forward pass gives earliest times.
-- Backward pass gives latest times.
-- Slack shows scheduling flexibility.
-- The critical path is the longest path and has zero slack.
-
-### One-line summary
-
-Lecture 5 says: good planning turns dependencies into a schedule, and critical path analysis tells you what actually controls the finish date.
-
-## Lecture 6
-
-### Architecture
-
-Architecture is the high-level structure of the system. It sits between requirements and code and captures the major design decisions that shape how the system is built and maintained.
-
-### Levels of abstraction
-
-| Level | Focus |
-| --- | --- |
-| Requirements | High-level `what` |
-| Architecture | Mid-level `what`, High-level `how` |
-| System Design | Low-level `what`, Mid-level `how` |
-| Code | Low-level `how` |
-
-### Coupling and cohesion
-
-| Concept | Meaning | Good / Bad |
-| --- | --- | --- |
-| Coupling | Dependencies between subsystems | Low is good |
-| Cohesion | How strongly related the responsibilities inside a subsystem are | High is good |
-
-### Why it matters
-
-| Idea | Why it matters |
-| --- | --- |
-| Low coupling | Changing one subsystem should not break many others |
-| High cohesion | Each subsystem should have a focused purpose |
-| Simplicity | Easier to implement, test, maintain, and extend |
-
-### What to remember for the exam
-
-- Architecture is the high-level organization of the system.
-- It sits between requirements and detailed design/code.
-- Requirements focus on `what`; architecture focuses on the major `how`.
-- Good architecture aims for `low coupling` and `high cohesion`.
-- High coupling means changes spread across subsystems.
-- High cohesion means a subsystem has a clear, focused role.
-
-### One-line summary
-
-Lecture 6 says: choose a simple high-level structure where subsystems have focused roles and minimal dependence on each other.
-
-## Lecture 7
-
-### Architecture Modeling and Styles
-
-Lecture 7 makes architecture concrete: what parts exist, how to model them, and which recurring system structures are commonly used.
-
-### Design vs architecture
-
-| Type | Focus |
-| --- | --- |
-| Design | Local decisions inside parts of the system |
-| Architecture | System-level structure and large-scale decisions |
-
-### Architecture parts
-
-| Part | Meaning |
-| --- | --- |
-| Package | Conceptual grouping of system elements |
-| Component | Software unit with interfaces |
-| Node | Physical place where software runs |
-
-### Diagram types
-
-| Diagram | Answers | Main unit |
-| --- | --- | --- |
-| Conceptual diagram | How are the main parts connected? | Packages |
-| Interface / Component diagram | How are major parts connected logically? | Components |
-| Deployment diagram | What runs where physically? | Nodes |
-
-### Architectural styles
-
-| Style | Core idea | Use when | Example |
-| --- | --- | --- | --- |
-| Client-Server | Clients and servers communicate through a protocol | Request/response across machines is natural | Email, internet services |
-| Layered | Each layer uses the one below and serves the one above | You want clean abstraction boundaries and controlled dependencies | Operating systems |
-| Pipe and Filter | Data moves through a sequence of transformations | The main job is step-by-step data transformation | Compiler, signal processing |
-| Repository | Components coordinate through shared central data | The system revolves around shared state | Central database-based systems |
-
-### Key intuitions
-
-| Style | Intuition |
-| --- | --- |
-| Client-Server | One side asks, the other side serves |
-| Layered | A stack where each layer mainly talks to its neighbors |
-| Pipe and Filter | An assembly line for data |
-| Repository | Everyone works through one shared source of truth |
-
-### What to remember for the exam
-
-- Packages show conceptual grouping.
-- Components are software units with interfaces.
-- Nodes are physical runtime resources.
-- Use a deployment diagram when the question is about where software runs.
-- Client-server is about protocol-based communication.
-- Layered architecture is about abstraction boundaries.
-- Pipe and filter is best for data transformation pipelines.
-- Repository architecture centers the system around shared data.
-
-### One-line summary
-
-Lecture 7 says: model architecture through packages, components, and nodes, then choose a style like client-server, layered, pipe-and-filter, or repository to organize the system.
-
-## Lecture 8
-
-### Advanced Architecture Styles and Deployment
-
-Lecture 8 continues architecture with event-driven styles and modern deployment approaches.
-
-### Architectural styles continued
-
-| Style | Core idea | Key point |
-| --- | --- | --- |
-| MVC | Split system into Model, View, Controller | Separates data, UI, and input/control logic |
-| Publish-Subscribe | Publishers emit events, subscribers react | Event-driven and loosely coupled |
-
-### Deployment and packaging styles
-
-| Style | Core idea | Pros | Cons | Examples |
-| --- | --- | --- | --- | --- |
-| Virtualization | Multiple OS instances on one machine managed by a host OS/hypervisor | Lower cost, better hardware use | High overhead | VMware, VirtualBox, Xen |
-| Containers | Lightweight package containing everything an app needs | Lighter than VMs, fast startup | Less isolation than full VMs | Docker, LXC |
-| Serverless | Event-triggered functions run by a cloud platform | Less infra management, good for small triggered tasks | Harder to reason about distributed behavior | AWS Lambda, Azure Functions |
-| Microservices | Many small independent services communicating over the network | Scalable, fault tolerant, reduces coupling | Coordination and operations become harder | Netflix, Amazon, Uber |
-
-### Key intuitions
-
-| Topic | Intuition |
-| --- | --- |
-| Publish-Subscribe | Components do not call each other directly; they react to events |
-| Virtualization | Many virtual computers on one physical computer |
-| Containers | Lightweight app packaging |
-| Serverless | Small functions that run only when triggered |
-| Microservices | Many mini-applications working together |
-
-### What to remember for the exam
-
-- Publish-subscribe is event-driven and loosely coupled.
-- MVC separates data, UI, and control responsibilities.
-- Virtual machines are heavier than containers.
-- Containers package an application and its runtime needs.
-- Serverless is good for small event-triggered functions.
-- Microservices improve independence and scalability but increase operational complexity.
-
-### One-line summary
-
-Lecture 8 says: architecture also includes event flow and deployment strategy, from MVC and publish-subscribe to VMs, containers, serverless, and microservices.
+Cornell Univeristy Spring 2026, course notes.
+
+## Lec 2
+Identify stakeholders: developer, client, customer, user  
+Process Models:
+- Waterfall
+    - rigid, fixed structure, no going back
+    - use when req are stable and complete
+- Modified Waterfall
+    - waterfall with feedback loop
+    - use when req are mostly stable but not perfectly
+- Prototyping / Iterative Refinement
+    - design, prototype, customer eval, review - repeat
+    - use when users do'nt know what they want
+- Incremental Delivery
+    - use when partial functionality is useful
+    - need continuous progress
+- Agile
+    - use when req change often
+    - customer feedback is freq
+- Extreme Programming (Agile method)
+    - code quaity matters
+    - small releases, pair programming
+    - Scrum (management strcuture for agile)
+        - scrum gives sprint structure
+- COTS
+    - Commercial Off The Shelf
+    - use when problem is common
+    - when existing tools are good enough
+- Mixed Processes
+- Phased Development
+
+## Lec 3
+Requirements  
+Subphases:
+- Analysis
+- Modeling
+- Specifications  
+Types:
+- Functional
+    - what the system must do
+    - features, behaviors, services
+- Non-Functional
+    - how well the system must do it
+    - what constraints it must obey
+    - performance, security, reliability, usability, legal, maintainability, scalability  
+Validation & Verification
+- Are you building the right thing?
+- Did you build it right?
+
+## Lec 4
+Modeling  
+Types:
+- External, Structural, Interaction, Behavioral  
+UML
+- Use Case
+    - actor
+    - use case (action)
+    - Relationships:
+        - \<<includes\>> base case ---->
+            - included use case executes always when the base use case is executed
+        - \<<extends\>>  base case <----
+            - extended use case executes only sometimes when the base case is executed
+- Sequence
+    - actor
+    - objects
+    - lifelines
+    - messages
+        - request message _______> or <_______
+        - return message <----
+    - alternative frame
+- Data Flow
+    - Activity (rounded rect)
+    - Data (rect)
+    - start / end (circle)
+- Class
+- State / Transition tables
+
+## Lec 5
+Feasibility  
+Estimation for Scheduling
+- Parkinson's Law  
+Activity Networks
+- Critical Path Analysis
+    - Earliest completion dates
+        - forward pass
+        - max
+        ![CPA Forward Pass](images/CPA-Forward.jpg)
+    - Slack
+        - backward pass
+        - min
+        ![CPA Backward Pass](images/CPA-Backward.jpg)
+    - Critical Path:
+        path with no slack
+
+## Lec 6
+Architecture  
+Levels of Abstraction
+- Req: High level `what`
+- Architecture: Mid level `what`, High level `how`
+- System Design: Low level `what`, Mid level `how`
+- Code: Low level `how`
+
+Coupling & Cohesion
+- Coupling: dependencies between subsystems, high - changing one subsystem tends to affect others
+- Cohesion: the functions inside the subsystem are highy related, high - the subsystem has a focused purpose
+- Good Architecture: Low Coupling, High Cohesion (Simplicity)
+
+## Lec 7
+Design vs Architecture  
+Architecture parts:
+- Package - conceptual grouping
+- Component - software unit with interfaces
+- Node - physical place where software runs (nodes consist of components)  
+
+Architecture Diagram Types:
+- Conceptual diagram - how are the main parts connected? (packages)
+- Interface / Component diagram - how are major parts connected (components)
+- Deployment diagram - what runs where physically? (nodes)  
+
+Architectural Styles:
+- Client-Server
+    - use:
+        - you have request/response interaction across machines
+        - separation between consumer and provider is natural
+- Layered
+    - stack of layers
+    - each layer uses the one below and serves the one above
+    - use:
+        - the system benefits from clean abstraction boundaries
+        - you want controlled dependencies
+    - eg: OS
+- Pipe and Filter
+    - data flows flows through a sequence of transformations
+    - each stage process input and produce output
+    - like an assembly line for data
+    - use:
+        - the main job is transforming data step by step
+    - eg: compiler, signal processing
+- Repository
+    - shared central data
+    - low coupling
+    - good for backup
+    - single point of failure risk
+    - everyone works through one shared source of truth
+    - use:
+        - the main system coordination happens around shared data
+
+## Lec 8
+Architectural Styles contd.:
+- MVC
+- Publish-Subscribe
+    - event driven
+    - publishers emit event, subscriber react
+    - loose coupling
+- Virtualization
+    - multiple OS, one machine managed by host OS
+    - low cost, high overhead
+    - eg: VMware, VirtualBox, Xen
+- Containers
+    - lighter than VMs
+    - Packing one application/service
+    - contains everything an application needs to run
+    - eg: docker, LXC
+- Serverless
+    - split the system into event-triggered functions run by a cloud platform.
+    - less infra management
+    - small functions that run only when triggered
+- Microservices
+    - many small services, each running as its own mini-application
+    - coordination btw each services is difficult
+    - provided through REST/HTTP
+    - scalable, fault tolerant
+    - reduce coupling, increase operations complexity
+    - eg: netflix, amazon, uber
+
+## Lec 8 (System Design)
+UML Design Choices:
+- Requirements: Use case diagram
+- Architecture: Component, Deployment design
+- System Design: Class diagram(structural, classes, interface, etc) and Sequence diagram (objects and relationships)
+
+Class diagram:  
+Relationships:
+
+| Type | Relationship |
+|---|---|
+| Association | *class1* --------- *class2* |
+| Dependency | *dependent* - - - - - - > *dependency* |
+| Generalization (inheritance) | *child* -----------\|> *parent* |
+| Realization (interfaces) | *class* - - - - -\|> *interface* |
+| Aggregation | *whole* o------ *part* |
+
+## Lec 9
+System Design contd.  
+Sequence Diagram  
+Messages:
+![sequence diagram messages](images/sequence-diagram-messages.png)
+- focus on Asynchronous > (caller doesn't wait) and synchronous messages |> (caller waits)
+
+#### Design Patterns
+- Observer:
+    - one object changes state
+    - many other objects need to react
+- Builder (creation pattern)
+    - an object is complicated to construct
+    - constructors become messy
+    - you want readable step-by-step configuration
+    - maybe the final object should be immutable
+- Factory (creation pattern)
+    - you want an object of some interface
+    - but you do not want client code to know the exact subclass
+- RAII
+- Singleton - (Anti)pattern:
+    - Single global instance of class
+    - you can only call that INSTANCE
+    - anti pattern cause shouldn't be used unless very essential
+- Composite:
+    - uniformity is key
+    - you have a tree structure
+    - leaf nodes and parent nodes should be treated uniformly
+    - when you want to a treat single thing and group of things the same way
+    - makes it easier to calculate total values of all the objects
+    - boxes with boxes example, to get price
+    ![composite image 1](images/composite-image-1.png)
+    ![composite image 2](images/composite-image-2.png)
+    - file, folder example, to get size
+    - the class attribute inside composite class (FolderNode) children are of type FileSystemNode which can be Files or Folders
+    - the size() func inside FolderNode handles the size wrt to this type
+    ![composite image 3](images/composite-image-3.png)
+    ![composite image 4](images/composite-image-4.png)
+    - output: 600
+- Visitor:
+    - you already have many classes
+    - you want to add new operations without modifying those classes repeatedly
+    - https://www.youtube.com/watch?v=UQP5XqMqtqQ
+
+## Lec 10
+Design Patterns contd.:
+- Facade:
+    - masks heavy underlying code
+    - provides simple interface for client
+    - the system has many low-level classes
+    - you want to expose a simpler high-level interface
+    - let's say you want to take an amount, then check if the user has enough balance, then deduct that amount from the bank balance, then send and email as well. Now the deduct func is part of a third party lib, you will call that and do al of the other stuff like checking balance and sending email before and after calling this func. Now let's say you want to use this in multiple places of your code. The system will get really messy if you need to change something later, the system becomes highly coupled - That's BAD. So we do FACADE, we create a FACADE interface with a function to do this whole thing and just call it once whereever we wanna use that.
+
+## Lec 11
+Version Control  
+
+Centralised Version Control (OLD WAY)
+- one central repo
+- each user has working copy
+- user commits changes to repo
+- user sees the changes after update  
+
+Distributed Version Control (NEW WAY)
+- each user has a local copy of the repo, each storing it's own version history
+- each user works in the working copy of their respective repo
+- commits made are only made in the local repo, until pushed
+- changes made to the remote repo is not visible in local repo unless fetched
+- changes fetched is not visible in the working copy unless update  
+
+Basic Git Workflow:
+- `git pull`
+- create or switch to a branch
+- edit files
+- run tests
+- `git add`
+- `git commit`
+- `git pull` again if needed
+- run tests again
+- `git push`  
+
+Key Commands:
+- `git add` = put changes into staging
+- `git commit` = save a snapshot in local repo
+- `git push` = send local commits to remote
+- `git fetch` = download remote history
+- `git merge` = combine histories
+- `git pull` = `fetch + merge`  
+
+Branches: main/trunk branch, development branch, release branch  
+
+Merge vs Rebase vs Squash
+```text
+History:
+main:    A --- B
+               \
+feature:        C --- D
+
+Merge:
+A --- B -------- M
+       \        /
+        C ---- D
+
+Rebase:
+A --- B --- C' --- D'
+
+Squash:
+A --- B --- S
+```
+
+Conflicts:  
+- obvious failure
+- silent failure  
+
+## lec 12
+
+Clone vs Branch vs Fork:
+- `clone` = copy repo to your machine
+- `branch` = create a work lane inside the repo
+- `fork` = create your own remote copy of someone else’s repo  
+
+Git terms:
+- `branch`: movable pointer to a line of development
+- `remote`: another copy of the repo, often GitHub
+- `fetch`: download remote history without merging
+- `merge`: combine histories
+- `rebase`: replay commits on top of another base
+- `checkout`: switch branch or restore files
+- `restore`: undo working tree changes
+- `diff`: show changes
+- `log`: show history
+- `SHA`: commit/object identifier
+- `HEAD`: what commit/branch you are currently on
+- `staging`: area between working directory and commit
+- `blame`: who last changed each line
+- `bisect`: binary search through history to find a bug-introducing commit
+- `cherry-pick`: copy one specific commit onto another branch
+- `tag`: label a specific commit, often for releases
+- `amend`: modify the most recent commit
+- `revert`: undo a commit by making a new opposite commit
+- `reset`: move branch/HEAD backward; can be destructive if misused
+- `submodule`: repository nested inside another repository
